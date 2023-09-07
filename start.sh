@@ -1,5 +1,6 @@
 #! /bin/bash
-
+# Source Simony Cuany et David Roulet 
+# 07.09.2023
 apt update -y
 apt update -y
 apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc git -y
