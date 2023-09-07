@@ -7,10 +7,10 @@ apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake 
 
 git clone https://github.com/SimonCuany/LIN1.git
 
-chmod +x Lin1/debianInstall/testEnvironnement.sh
+chmod +x LIN1/debianInstall/testEnvironnement.sh
 
-Lin1/debianInstall/testEnvironnement.sh
+LIN1/debianInstall/testEnvironnement.sh
 
-rm -r Lin1
+rm -r LIN1
 
 reboot
