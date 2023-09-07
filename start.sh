@@ -1,9 +1,8 @@
 #! /bin/bash
 
 apt update -y
-apt install git -y
 apt update -y
-apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc -y
+apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc git -y
 
 git clone https://github.com/SimonCuany/LIN1.git
 
