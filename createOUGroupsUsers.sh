@@ -177,19 +177,19 @@ add: memberuid
 memberuid: dev1
 EOM
 
-ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/base.ldif -w $LDAPPWD
+ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/base.ldif -w "Pa$$w0rd"
 
-ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/users.ldif -w $LDAPPWD
+ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/users.ldif -w "Pa$$w0rd"
 
-ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=dev1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man1,ou=users,dc=lin1,dc=local" -w "Pa$$w0rd"
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man2,ou=users,dc=lin1,dc=local" -w "Pa$$w0rd"
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing1,ou=users,dc=lin1,dc=local" -w "Pa$$w0rd"
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing2,ou=users,dc=lin1,dc=local" -w "Pa$$w0rd"
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=dev1,ou=users,dc=lin1,dc=local" -w "Pa$$w0rd"
 
-ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/groups.ldif -w $LDAPPWD
+ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/groups.ldif -w "Pa$$w0rd"
 
-ldapmodify -x -D "$LdapAdminCNString" -f /etc/ldap/content/addtogroup.ldif -w $LDAPPWD
+ldapmodify -x -D "$LdapAdminCNString" -f /etc/ldap/content/addtogroup.ldif -w "Pa$$w0rd"
 
 
 #apt-get install ldap-account-manager
