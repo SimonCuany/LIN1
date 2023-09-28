@@ -32,7 +32,7 @@ mkdir /etc/ldap/content
 LDAP_FILE="/etc/ldap/ldap.conf"
 cat <<EOM >$LDAP_FILE
 BASE	dc=lin1,dc=local
-URL	ldap://10.10.10.11
+URI	ldap://10.10.10.11
 # ldap://ldap-provider.example.com:666
 
 #SIZELIMIT	12
