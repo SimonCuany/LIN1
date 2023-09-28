@@ -1,13 +1,27 @@
-#! /bin/bash
-
-######################################################################################
-# Create Base, Groups and Users
+LdapAdminCNString="cn=admin,dc=lin1,dc=local"
+LDAPPWD="Pa$$w0rd"
+USRPWD="Pa$$w0rd"
 
 mkdir /etc/ldap/content
 
+LDAP_FILE="/etc/ldap/ldap.conf"
+cat <<EOM >$LDAP_FILE
+BASE	dc=lin1,dc=local
+URI	ldap://10.10.10.11
+# ldap://ldap-provider.example.com:666
+
+#SIZELIMIT	12
+#TIMELIMIT	15
+#DEREF		never
+
+# TLS certificates (needed for GnuTLS)
+TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
+EOM
+
+systemctl restart slapd.service
+
 LDAP_FILE="/etc/ldap/content/base.ldif"
 cat <<EOM >$LDAP_FILE
-
 dn: ou=users,dc=lin1,dc=local
 objectClass: organizationalUnit
 objectClass: top
@@ -17,12 +31,11 @@ dn: ou=groups,dc=lin1,dc=local
 objectClass: organizationalUnit
 objectClass: top
 ou: groups
-
 EOM
+ 
 
 LDAP_FILE="/etc/ldap/content/groups.ldif"
 cat <<EOM >$LDAP_FILE
-
 dn: cn=Managers,ou=groups,dc=lin1,dc=local
 objectClass: top
 objectClass: posixGroup
@@ -37,12 +50,12 @@ dn: cn=Devloppeurs,ou=groups,dc=lin1,dc=local
 objectClass: top
 objectClass: posixGroup
 gidNumber: 20020
-
 EOM
+
+ 
 
 LDAP_FILE="/etc/ldap/content/users.ldif"
 cat <<EOM >$LDAP_FILE
-
 dn: uid=man1,ou=users,dc=lin1,dc=local
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -59,7 +72,7 @@ gidNumber: 20000
 displayName: Man 1
 homeDirectory: /home/man1
 mail: man1@$DOMAIN
-description: Man 1 account
+description: Man 1 account 
 
 dn: uid=man2,ou=users,dc=lin1,dc=local
 objectClass: inetOrgPerson
@@ -132,51 +145,51 @@ displayName: Dev 1
 homeDirectory: /home/man1
 mail: dev1@$DOMAIN
 description: Dev 1 account
-
 EOM
+
+ 
 
 LDAP_FILE="/etc/ldap/content/addtogroup.ldif"
 cat <<EOM >$LDAP_FILE
+dn: cn=Managers,ou=groups,dc=lin1,dc=local
+changetype: modify
+add: memberuid
+memberuid: man1 
 
 dn: cn=Managers,ou=groups,dc=lin1,dc=local
 changetype: modify
 add: memberuid
-memberuid: man1
-
-dn: cn=Managers,ou=groups,dc=lin1,dc=local
-changetype: modify
-add: memberuid
-memberuid: man2
+memberuid: man2 
 
 dn: cn=Ingenieurs,ou=groups,dc=lin1,dc=local
 changetype: modify
 add: memberuid
-memberuid: ing1
+memberuid: ing1 
 
 dn: cn=Ingenieurs,ou=groups,dc=lin1,dc=local
 changetype: modify
 add: memberuid
-memberuid: ing2
+memberuid: ing2 
 
 dn: cn=Devloppeurs,ou=groups,dc=lin1,dc=local
 changetype: modify
 add: memberuid
 memberuid: dev1
-
 EOM
 
 ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/base.ldif -w $LDAPPWD
 
 ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/users.ldif -w $LDAPPWD
 
-ldappasswd -s "$LDAPPWD" -D "$LdapAdminCNString" -x "uid=man1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$LDAPPWD" -D "$LdapAdminCNString" -x "uid=man2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$LDAPPWD" -D "$LdapAdminCNString" -x "uid=ing1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$LDAPPWD" -D "$LdapAdminCNString" -x "uid=ing2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
-ldappasswd -s "$LDAPPWD" -D "$LdapAdminCNString" -x "uid=dev1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=man2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=ing2,ou=users,dc=lin1,dc=local" -w $LDAPPWD
+ldappasswd -s "$USRPWD" -D "$LdapAdminCNString" -x "uid=dev1,ou=users,dc=lin1,dc=local" -w $LDAPPWD
 
 ldapadd -x -D "$LdapAdminCNString" -f /etc/ldap/content/groups.ldif -w $LDAPPWD
 
 ldapmodify -x -D "$LdapAdminCNString" -f /etc/ldap/content/addtogroup.ldif -w $LDAPPWD
 
-ldapsearch -x -D "$LdapAdminCNString" -b "$LdapDCString" "(objectclass=*)" -w $LDAPPWD
+
+#apt-get install ldap-account-manager
