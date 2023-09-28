@@ -2,6 +2,31 @@ LdapAdminCNString="cn=admin,dc=lin1,dc=local"
 LDAPPWD="Pa$$w0rd"
 USRPWD="Pa$$w0rd"
 
+######################################################################################
+# Update Password OpenLDAP admin
+
+# LDAP Server information
+LDAP_SERVER="ldap://10.10.10.11"
+
+# Generate LDIF file for modifying the root password
+LDIF_FILE="modify_root_password.ldif"
+
+echo "dn: cn=admin,dc=lin1,dc=local
+changetype: modify
+replace: userPassword
+userPassword: Pa$$w0rd" > $LDIF_FILE
+
+# Modify the root password using the LDIF file
+ldapmodify -x -H "$LDAP_SERVER" -D "ldap://10.10.10.11" -w "Pa$$w0rd" -f $LDIF_FILE
+
+# Clean up the LDIF file
+rm $LDIF_FILE
+
+
+
+
+
+
 mkdir /etc/ldap/content
 
 LDAP_FILE="/etc/ldap/ldap.conf"
